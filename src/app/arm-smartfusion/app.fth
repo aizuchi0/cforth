@@ -7,6 +7,10 @@ $3000 $5000 npatch load-base
 : bitset  ( mask adr -- )  tuck l@ or swap l!  ;
 : bitclr  ( mask adr -- )  tuck l@ swap invert and swap l!  ;
 
+\ fetch from FABRIC addr
+: F@ 40050000 + l@ ;
+\ write to FABRIC addr
+: F! 40050000 + l! ;
 
 \ add leading zeros  ( value n -- )
 : Z.R >R (U.) R> OVER - 200 MIN 0 MAX 0 ?DO ." 0" LOOP TYPE ;
@@ -14,10 +18,12 @@ $3000 $5000 npatch load-base
 \ test word
 : timertest ." starting up" cr a00000 timer1-init timer1-start timer1-enable ;
 
-: showdate forthdate@ dup 10 >> decimal 4 Z.R ." /" 
-     dup 8 >> ff and 2 Z.R ." /" 
-     ff and 2 Z.R 
-     hex space ." v" forthversion@ 4 Z.R ; 
+: showdate cr ." FPGA Date: "
+  fpgadate@ 
+  dup 10 >> 4 decimal Z.R hex ." /" 
+  dup 8 >> ff and 2 decimal Z.R hex ." /" 
+  ff and 2 decimal Z.R hex
+  cr ." FPGA Version: " fpgaversion@ 4 Z.R ; 
 
 only forth also hidden also definitions
 decimal
