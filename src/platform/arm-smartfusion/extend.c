@@ -3,6 +3,7 @@
 
 #include "forth.h"
 #include "mss_watchdog.h"
+#include "mss_spi.h"
 #include "mss_timer.h"
 
 // Prototypes
@@ -199,6 +200,28 @@ cell timer1_disable()
     MSS_TIM1_disable_irq();
 }
 
+/* SPI Config Master Mode */
+cell SPI_cmm() {
+
+}
+
+/* SPI Slave Select routine */
+cell SPI_ss(cell slaveID) {
+  const uint8_t frame_size = 25;
+  /* const uint32_t master_tx_frame = 0x0100A0E1; */
+
+  MSS_SPI_init( &g_mss_spi1 );
+  MSS_SPI_configure_master_mode
+    (
+        &g_mss_spi1,
+        MSS_SPI_SLAVE_0,
+        MSS_SPI_MODE1,
+        MSS_SPI_PCLK_DIV_256,
+        frame_size
+     );
+
+  MSS_SPI_set_slave_select( &g_mss_spi1, MSS_SPI_SLAVE_0 );
+}
 
 
 cell ((* const ccalls[])()) = {
@@ -223,6 +246,8 @@ cell ((* const ccalls[])()) = {
   C(timer1_disable)  //c timer1-disable  { -- }
   C(fabric_enable)   //c fabric-enable   { -- }
   C(fabric_disable)  //c fabric-disable  { -- }
+  C(SPI_cmm)         //c SPI_cmm         { -- }
+  C(SPI_ss)          //c SPI_ss          { i.value -- }
 };
 
 
