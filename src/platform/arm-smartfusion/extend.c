@@ -200,9 +200,33 @@ cell timer1_disable()
     MSS_TIM1_disable_irq();
 }
 
-/* SPI Config Master Mode */
-cell SPI_cmm() {
+/* SPI Init */
+cell SPI_it() {
+	MSS_SPI_init( &g_mss_spi1 );
+}
 
+/* SPI Config Master Mode */
+cell SPI_cmm(cell target) {
+	mss_spi_slave_t  slave;
+	switch ((unsigned int)target) {
+   case 0: 
+	   slave = MSS_SPI_SLAVE_0;
+           break;
+   case 1: 
+	   slave = MSS_SPI_SLAVE_1;
+           break;
+   default:
+           break;
+ }
+
+   MSS_SPI_configure_master_mode
+    (
+        &g_mss_spi1,
+        slave,
+        MSS_SPI_MODE0,
+        MSS_SPI_PCLK_DIV_256,
+        16
+     );
 }
 
 /* SPI Slave Select routine */
@@ -246,6 +270,7 @@ cell ((* const ccalls[])()) = {
   C(timer1_disable)  //c timer1-disable  { -- }
   C(fabric_enable)   //c fabric-enable   { -- }
   C(fabric_disable)  //c fabric-disable  { -- }
+  C(SPI_it)          //c SPI_it          { -- }
   C(SPI_cmm)         //c SPI_cmm         { -- }
   C(SPI_ss)          //c SPI_ss          { i.value -- }
 };
