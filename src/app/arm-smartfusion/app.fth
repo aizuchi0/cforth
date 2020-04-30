@@ -19,11 +19,15 @@ $3000 $5000 npatch load-base
 : timertest ." starting up" cr a00000 timer1-init timer1-start timer1-enable ;
 
 : showdate cr ." FPGA Date: "
-  fpgadate@ 
-  dup 10 >> 4 decimal Z.R hex ." /" 
-  dup 8 >> ff and 2 decimal Z.R hex ." /" 
-  ff and 2 decimal Z.R hex
-  cr ." FPGA Version: " fpgaversion@ 4 Z.R ; 
+  fpgadate@
+  dup 10 >> 4 decimal Z.R hex ." /"
+  dup 8 >> ff and 2 decimal Z.R hex ." /"
+  ff and 2 decimal Z.R hex cr
+  fpgaversion@
+  dup 18 >> dup 1 = if ." FPGA Project: PLASMIC" then 2 = if ." FPGA Project: ACES2" then cr
+  dup 10 >> ff and dup ." FPGA Type: " d = if ." DEV" then
+  dup e = if ." EM" then f = if ." FM" then cr
+   ." FPGA Version: " ffff and 4 Z.R ;
 
 only forth also hidden also definitions
 decimal
