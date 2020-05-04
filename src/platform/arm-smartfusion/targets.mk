@@ -29,6 +29,9 @@ TLFLAGS += --gc-sections
 VPATH += $(SRC)/platform/arm-smartfusion
 VPATH += $(SRC)/platform/arm-smartfusion/smartfusion/drivers/mss_uart
 VPATH += $(SRC)/platform/arm-smartfusion/smartfusion/drivers/mss_spi/drivers/mss_spi/
+VPATH += $(SRC)/platform/arm-smartfusion/smartfusion/CMSIS/
+VPATH += $(SRC)/platform/arm-smartfusion/smartfusion/CMSIS/startup_gcc/
+VPATH += $(SRC)/platform/arm-smartfusion/smartfusion/drivers/CoreSPI/
 VPATH += $(SRC)/lib
 
 # This directory, including board information
@@ -38,6 +41,8 @@ INCS += -I$(SRC)/platform/arm-smartfusion/smartfusion/drivers/mss_timer/
 INCS += -I$(SRC)/platform/arm-smartfusion/smartfusion/drivers/mss_watchdog/drivers/mss_watchdog/
 INCS += -I$(SRC)/platform/arm-smartfusion/smartfusion/drivers/mss_spi/drivers/mss_spi/
 INCS += -I$(SRC)/platform/arm-smartfusion/smartfusion/CMSIS/
+INCS += -I$(SRC)/platform/arm-smartfusion/smartfusion/hal/
+INCS += -I$(SRC)/platform/arm-smartfusion/smartfusion/hal/CortexM1/GNU/
 
 include $(SRC)/common.mk
 include $(SRC)/cforth/targets.mk
